@@ -1,0 +1,14 @@
+.Input{
+    width: 70%;
+    margin: 1rem auto;
+    border: 1px solid rgb(240, 163, 19);
+    background: rgb(235, 221, 197);
+    border-radius: 3px;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+.Invalid{
+    border: 1px solid red;
+    background: rgb(231, 149, 149);
+}

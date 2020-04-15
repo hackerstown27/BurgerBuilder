@@ -1,0 +1,20 @@
+.orders{
+    width: 70%;
+    margin:  2rem auto;
+    padding: 2rem;
+    border: 2px solid orange;
+}
+
+.order{
+    box-shadow: 1px 2px 2px #cccccc;
+    margin: 3rem 2rem;
+    padding: 1rem;
+    font-size: 2rem;
+    font-family: monospace;
+}
+
+.order span {
+    border: 1px solid #ccc;
+    box-shadow: 1px 1px 1px #ccc;
+    margin: 0 10px;
+}
