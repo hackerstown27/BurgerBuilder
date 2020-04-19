@@ -6,12 +6,11 @@ import Button from "../../UI/Button/Button";
 import axios from "../../axios-order";
 import Spinner from "../../UI/Spinner/Spinner";
 import Input from "../../UI/Input/Input";
+import {connect} from "react-redux";
 
 class Checkout extends React.Component {
 
     state = {
-        ingridients : null,
-        totalPrice: null,
         loading: false,
         purchasable: false,
         orderFields : {
@@ -93,19 +92,6 @@ class Checkout extends React.Component {
         }
     }
 
-    componentWillMount() {
-        let params = new URLSearchParams(this.props.location.search); 
-        this.setState({
-            ingridients : {
-                salad: params.get("salad"),
-                meat: params.get("meat"),
-                cheese: params.get("cheese"), 
-                bacon: params.get("bacon")
-            },
-            totalPrice: params.get("totalPrice")
-        })
-    }
-
     onConfirmHandler = () => {
         this.setState({loading: true});
 
@@ -115,9 +101,9 @@ class Checkout extends React.Component {
         });
 
         axios.post("/orders.json", {
-            ingridients: this.state.ingridients,
+            ingridients: this.props.ingridients,
             orderDetails: orderDetails,
-            totalPrice: this.state.totalPrice
+            totalPrice: this.props.totalPrice
         }).then(response => {
             this.setState({loading: true});
             this.props.history.push("/orders");
@@ -166,17 +152,13 @@ class Checkout extends React.Component {
         this.setState({orderFields: updatedOrderFields, purchasable: isPurchasable});
     }
 
-    checkValidation = () => {
-
-    }
-
     render() {
         return (
             this.state.loading ? <Spinner />: 
             (<div className={classes.checkout}>
                 <h1>Hope You Will like this Burger ...</h1>
-                <p>Total Price: USD {this.state.totalPrice}</p>
-                <BurgerIngridients ingridients={this.state.ingridients} />
+                <p>Total Price: USD {this.props.totalPrice}</p>
+                <BurgerIngridients ingridients={this.props.ingridients} />
                 <form>
                     {Object.keys(this.state.orderFields).map(inputIdentifier => {
                         const inputElement = this.state.orderFields[inputIdentifier];
@@ -197,4 +179,11 @@ class Checkout extends React.Component {
     }
 }
 
-export default Checkout;
+const mapStateToProps = (state) => {
+    return {
+        ingridients: state.ingredients,
+        totalPrice: state.totalPrice
+    }
+}
+
+export default connect(mapStateToProps)(Checkout);

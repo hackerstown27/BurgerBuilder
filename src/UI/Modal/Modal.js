@@ -9,14 +9,7 @@ import Button from "../Button/Button";
 class Modal extends React.Component {
 
     successBtnHandler = () => {
-        const query = Object.keys(this.props.ingridients).map((ingridient) => {
-            return ingridient + "=" + this.props.ingridients[ingridient]
-        });
-        query.push("totalPrice="+this.props.totalPrice);
-        this.props.history.push({
-            pathname: "/checkout",
-            search: query.join("&")
-        });
+        this.props.history.push("/checkout");
     }
 
     render(){

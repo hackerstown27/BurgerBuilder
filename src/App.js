@@ -2,12 +2,22 @@ import React, { Component } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 import Layout from "./Components/Layout/Layout";
+import {createStore, compose, applyMiddleware} from "redux";
+import {Provider} from "react-redux";
+import reducer from "./store/reducers/reducer";
+import thunk from "redux-thunk";
 
 const App = () => {
+
+    const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)));
+
     return (
-        <BrowserRouter>
-            <Layout />
-        </BrowserRouter>
+        <Provider store={store}>
+            <BrowserRouter>
+                <Layout />
+            </BrowserRouter>
+        </Provider>
     );
 }
 

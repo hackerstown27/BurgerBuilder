@@ -4,37 +4,15 @@ import Auxilary from "../../Hoc/Auxilary";
 import BurgerIngredients from "./BurgerIngridients/BurgerIngridients";
 import ControlPanel from "./ControlPanel/ControlPanel";
 import Modal from "../../UI/Modal/Modal";
-import axios from "../../axios-order";
 import Spinner from "../../UI/Spinner/Spinner";
+import {connect} from "react-redux";
+import * as actions from "../../store/actions/actions";
 
 
 class BurgerBuilder extends React.Component{
 
     state = {
-        ingredients: null,
-        totalPrice: 4.00,
         modalState: false
-    }
-
-    priceList = {
-        salad: 0.44,
-        bacon: 0.72,
-        cheese: 0.54,
-        meat: 0.80
-    }
-
-    add = (type) => {
-        let updatedIng = {...this.state.ingredients};
-        updatedIng[type] += 1;
-        let updatedPrice = this.state.totalPrice + this.priceList[type];
-        this.setState({ingredients: updatedIng, totalPrice: updatedPrice});
-    }
-
-    rem = (type) => {
-        let updatedIng = {...this.state.ingredients};
-        updatedIng[type] -= 1;
-        let updatedPrice = this.state.totalPrice - this.priceList[type];
-        this.setState({ingredients: updatedIng, totalPrice: updatedPrice});
     }
 
     modalToggler = () => {
@@ -46,29 +24,38 @@ class BurgerBuilder extends React.Component{
     }
 
     componentDidMount() {
-        axios.get("/ingridients.json").then(response => {
-            this.setState({ingredients: response.data});
-        })
-        .catch(error => {
-            alert(error.message);
-        })
+        this.props.fetchIngridients();
     }
     
     render(){
         return (
             <Auxilary>  
-                {this.state.modalState ? <Modal ingridients={this.state.ingredients} totalPrice={this.state.totalPrice} backdropHandler={this.backdropHandler}/> : null}
-                
-                {this.state.ingredients ? 
+                {this.state.modalState ? <Modal ingridients={this.props.ingredients} totalPrice={this.props.totalPrice} backdropHandler={this.backdropHandler}/> : null}
+                {this.props.ingredients ? 
                 <Auxilary> 
-                    <BurgerIngredients ingridients={this.state.ingredients}/> 
-                    <ControlPanel add={this.add} rem={this.rem} ingridients={this.state.ingredients} totalPrice={this.state.totalPrice} modalHandler={this.modalToggler}/> 
+                    <BurgerIngredients ingridients={this.props.ingredients}/> 
+                    <ControlPanel add={this.props.add} rem={this.props.rem} ingridients={this.props.ingredients} totalPrice={this.props.totalPrice} modalHandler={this.modalToggler}/> 
                 </Auxilary>:
                 <Spinner/>}
-                
             </Auxilary>
         );
     }
 }
 
-export default BurgerBuilder;
+const mapPropsFromState = (state) => {
+    return {
+        ingredients: state.ingredients,
+        totalPrice: state.totalPrice
+    }
+}
+
+const mapDispatchFromState = (dispatch) => {
+    return {
+        fetchIngridients: () => dispatch(actions.asyncFetchIngridients()),
+        add: (type) => dispatch(actions.add(type)),
+        rem: (type) => dispatch(actions.rem(type)),
+    }
+}
+
+
+export default connect(mapPropsFromState, mapDispatchFromState)(BurgerBuilder);
