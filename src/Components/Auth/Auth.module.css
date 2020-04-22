@@ -1,0 +1,19 @@
+.AuthForm{
+    border: 1.5px solid orange;
+    border-radius: 5px;
+    width: 40%;
+    margin: 2rem auto;
+    padding: 1rem 1rem;
+}
+
+.AuthForm input{
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.AuthForm button{
+    width: 100%;
+    font-size: 2rem;
+    font-family: monospace;
+    letter-spacing: 0.1rem;
+}

@@ -3,6 +3,7 @@ import React from "react";
 import classes from "./orders.module.css";
 import Spinner from "../../UI/Spinner/Spinner";
 import axios from "../../axios-order";
+import {connect} from "react-redux";
 
 class Orders extends React.Component {
 
@@ -12,7 +13,8 @@ class Orders extends React.Component {
     }
 
     componentDidMount() {
-        axios.get("/orders.json")
+        const queryParams = `?auth=${this.props.idToken}&orderBy="localId"&equalTo="${this.props.localId}"`;
+        axios.get("/orders.json"+queryParams)
             .then(response => {
                 this.setState({loading: false, orders: response.data});
             })
@@ -47,4 +49,11 @@ class Orders extends React.Component {
     } 
 }
 
-export default Orders;
+const mapStateToProps = (state) => {
+    return {
+        idToken: state.auth.idToken,
+        localId: state.auth.localId
+    }
+}
+
+export default connect(mapStateToProps)(Orders);

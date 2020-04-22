@@ -3,6 +3,8 @@ import React from "react";
 import Auxilary from "../../../Hoc/Auxilary";
 import Control from "./Control/Control";
 import classes from "./controlpanel.module.css";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom"
 
 
 const ControlPanel = (props) => {
@@ -21,6 +23,8 @@ const ControlPanel = (props) => {
         return initVal + nextVal;
     }, 0);
 
+    
+
     return (
         <Auxilary>
             <div className={classes.controlPanel}>
@@ -36,10 +40,21 @@ const ControlPanel = (props) => {
                                 />
                     })
                 }
-                <button className={classes.OrderButton} disabled={ingQuantity <= 0} onClick={props.modalHandler}>ORDER NOW</button>
+                <button
+                    className={classes.OrderButton} 
+                    disabled={ingQuantity <= 0 && props.isLogin} 
+                    onClick={props.isLogin ? props.modalHandler : () => {props.history.push("/auth")} }>
+                    {props.isLogin ? "ORDER NOW" : "Sign Up To Order Now !"}
+                </button>
             </div>
         </Auxilary>
     );
 }
 
-export default ControlPanel;
+const mapStateToProps = (state) => {
+    return {
+        isLogin: state.auth.idToken !== null
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(ControlPanel));

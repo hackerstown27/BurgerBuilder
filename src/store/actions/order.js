@@ -1,5 +1,5 @@
-import axios from "../../axios-order";
-import * as actionTypes from "../actions/actionTypes";
+import axiosOrder from "../../axios-order";
+import * as actionTypes from "./actionTypes";
 
 const fetchIngridients = (ingridients) => {
     return {type: actionTypes.FETCH_INGRIDIENTS, ingridients: ingridients}
@@ -7,7 +7,7 @@ const fetchIngridients = (ingridients) => {
 
 export const asyncFetchIngridients = () => {
     return dispatch => {
-        axios.get("/ingridients.json").then(response => {
+        axiosOrder.get("/ingridients.json").then(response => {
             dispatch(fetchIngridients(response.data));
         })
         .catch(error => {

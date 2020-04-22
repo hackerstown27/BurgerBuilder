@@ -15,15 +15,9 @@ const Input = (props) => {
 
     switch(props.config.type){
         case "text":
-            inputElement = <input className={inputClasses} {...props.config} value={props.value} onChange={props.onChange}/>;
-            break;
-        case "text":
-            inputElement = <input className={inputClasses} {...props.config} value={props.value} onChange={props.onChange}/>;
-            break;
         case "number":
-            inputElement = <input className={inputClasses} {...props.config} value={props.value} onChange={props.onChange}/>;
-            break;
         case "email":
+        case "password":
             inputElement = <input className={inputClasses} {...props.config} value={props.value} onChange={props.onChange}/>;
             break;
         case "dropdown":

@@ -2,7 +2,7 @@ import * as actionTypes from "../actions/actionTypes";
 
 const initialState = {
     ingredients: null,
-    totalPrice: 4.00
+    totalPrice: 4.00,
 }
 
 const priceList = {

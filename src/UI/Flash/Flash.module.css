@@ -1,0 +1,10 @@
+.Flash{
+    border: 2px solid orange;
+    border-radius: 10px;
+    color: rgb(177, 115, 0);
+    padding: 1rem;
+    width: 60%;
+    margin: 1rem auto;
+    font-family: monospace;
+    font-size: 1.4rem;
+}

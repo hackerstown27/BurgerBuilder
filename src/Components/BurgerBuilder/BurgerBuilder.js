@@ -6,7 +6,7 @@ import ControlPanel from "./ControlPanel/ControlPanel";
 import Modal from "../../UI/Modal/Modal";
 import Spinner from "../../UI/Spinner/Spinner";
 import {connect} from "react-redux";
-import * as actions from "../../store/actions/actions";
+import * as actions from "../../store/actions/order";
 
 
 class BurgerBuilder extends React.Component{
@@ -44,8 +44,8 @@ class BurgerBuilder extends React.Component{
 
 const mapPropsFromState = (state) => {
     return {
-        ingredients: state.ingredients,
-        totalPrice: state.totalPrice
+        ingredients: state.order.ingredients,
+        totalPrice: state.order.totalPrice
     }
 }
 

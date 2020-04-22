@@ -100,10 +100,11 @@ class Checkout extends React.Component {
             orderDetails[inputIdentifier] = this.state.orderFields[inputIdentifier].value;
         });
 
-        axios.post("/orders.json", {
+        axios.post("/orders.json?auth="+this.props.idToken, {
             ingridients: this.props.ingridients,
             orderDetails: orderDetails,
-            totalPrice: this.props.totalPrice
+            totalPrice: this.props.totalPrice,
+            localId: this.props.localId
         }).then(response => {
             this.setState({loading: true});
             this.props.history.push("/orders");
@@ -181,8 +182,10 @@ class Checkout extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        ingridients: state.ingredients,
-        totalPrice: state.totalPrice
+        ingridients: state.order.ingredients,
+        totalPrice: state.order.totalPrice,
+        localId: state.auth.localId,
+        idToken: state.auth.idToken
     }
 }
 
